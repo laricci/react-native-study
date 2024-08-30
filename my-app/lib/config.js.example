@@ -1,0 +1,11 @@
+export const config = {
+    appwrite: {
+        endpoint: 'https://cloud.appwrite.io/v1',
+        platform: '',
+        projectId: '',
+        databaseId: '',
+        userCollectionId: '',
+        videoCollectionId: '',
+        storageId: ''
+    }
+}
