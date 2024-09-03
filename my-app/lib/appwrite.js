@@ -1,4 +1,4 @@
-import { Account, Avatars, Client, Databases, ID } from 'react-native-appwrite';
+import { Account, Avatars, Client, Databases, ID, Query } from 'react-native-appwrite';
 import { config } from './config';
 
 // Init your React Native SDK
@@ -58,6 +58,28 @@ export async function signIn(email, password) {
         const session = await account.createEmailPasswordSession(email, password);
 
     } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const getCurrentUser = async() => {
+    try {
+
+        const currentAccount = await account.get();
+
+        if (!currentAccount) throw Error;
+
+        const currentUser = await databases.listDocuments(
+            config.appwrite.databaseId,
+            config.appwrite.userCollectionId,
+            [Query.equal('accountid', currentAccount.$id)]
+        )
+
+        if (!currentUser) throw Error;
+
+        return currentUser.documents[0];
+
+    } catch(error) {
         throw new Error(error);
     }
 }
